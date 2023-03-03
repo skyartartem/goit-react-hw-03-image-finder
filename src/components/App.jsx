@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import{ Toaster } from 'react-hot-toast';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 
@@ -9,15 +10,17 @@ export class App extends Component {
   };
 
   handleSubmit = search => {
-    console.log(search);
+    // console.log(search);
     this.setState({search});
   };
 
   render() {
     return (
       <div>
+        <Toaster toastOptions={{
+          duration: 1500
+        }} />
         <Searchbar handleSubmit={this.handleSubmit} />
-        {/* <h1>{this.state.search}</h1> */}
         <ImageGallery search={this.state.search} />
       </div>
     );

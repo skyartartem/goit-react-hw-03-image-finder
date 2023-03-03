@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { toast } from "react-hot-toast";
 import { BiSearch } from 'react-icons/bi';
 import css from './Searchbar.module.css'
 
@@ -20,24 +21,27 @@ export class Searchbar extends Component {
   render() {
     return (
       <header className={css.searchbar}>
-            <form onSubmit={(evt) => {
-                evt.preventDefault();
-                this.props.handleSubmit(this.state.search);
-                 this.resetForm();
-            }
-                
-            } className={css.form}>
-                <button type="submit"
-                    className={css.button}>
-            <span className={css.buttonLabel}>
-              <BiSearch size="20" />
-            </span>
+        <form
+          onSubmit={evt => {
+                    evt.preventDefault();
+                    if (!this.state.search) {
+                      return toast.error('Enter text for search.');
+                    }
+            this.props.handleSubmit(this.state.search);
+            this.resetForm();
+          }}
+          className={css.Form}
+        >
+          <button type="submit" className={css.Button}>
+            {/* <span className={css.buttonLabel}> */}
+            <BiSearch size="20" />
+            {/* </span> */}
           </button>
 
           <input
             value={this.state.search}
             onChange={this.onChangeInput}
-            className={css.input}
+            className={css.Input}
             name="search"
             type="text"
             autoComplete="off"

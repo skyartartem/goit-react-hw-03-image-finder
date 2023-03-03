@@ -23,7 +23,7 @@
 /*
  * Стили компонента SearchForm
  */
-.form {
+.Form {
   display: flex;
   align-items: center;
   width: 100%;
@@ -33,7 +33,7 @@
   overflow: hidden;
 }
 
-.button {
+.Button {
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -48,7 +48,7 @@
   outline: none;
 }
 
-.button:hover {
+.Button:hover {
   opacity: 1;
 }
 
@@ -64,7 +64,7 @@
   border: 0;
 } */
 
-.input {
+.Input {
   display: inline-block;
   width: 100%;
   font: inherit;
@@ -75,7 +75,7 @@
   padding-right: 4px;
 }
 
-.input::placeholder {
+.Input::placeholder {
   font: inherit;
   font-size: 18px;
 }
