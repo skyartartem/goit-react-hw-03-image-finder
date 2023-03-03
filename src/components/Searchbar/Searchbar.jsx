@@ -22,7 +22,7 @@ export class Searchbar extends Component {
       <header className={css.searchbar}>
             <form onSubmit={(evt) => {
                 evt.preventDefault();
-                this.props.handleInput(this.state)
+                this.props.handleSubmit(this.state.search);
                  this.resetForm();
             }
                 

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 
 export class App extends Component {
@@ -7,16 +8,17 @@ export class App extends Component {
     page: 1,
   };
 
-  handleInput = ( state ) => {
-    console.log(state);
-    this.setState(state)
+  handleSubmit = search => {
+    console.log(search);
+    this.setState({search});
   };
 
   render() {
     return (
       <div>
-        <Searchbar handleInput={this.handleInput} />
-        <h1>{this.state.search}</h1>
+        <Searchbar handleSubmit={this.handleSubmit} />
+        {/* <h1>{this.state.search}</h1> */}
+        <ImageGallery search={this.state.search} />
       </div>
     );
   }
