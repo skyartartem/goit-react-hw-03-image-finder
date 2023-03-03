@@ -14,29 +14,46 @@ export class ImageGallery extends Component {
     error: '',
   };
 
-    clickLoad = () => {
-        
-        this.setState((prevSt)=>{return { page: prevSt.page+1 }})
-    }
-    
+  clickLoad = () => {
+    getSearch(this.props.search, this.state.page + 1)
+      .then(resp => resp.json())
+      .then(data => {
+        //   if (data.status !== "ok") {
+        //     return Promise.reject(data)
+        // }
+        //   console.log('response:>>', data);
+        // this.setState({
+        //   images: data.hits,
+        //   total: data.total,
+        this.setState(prevSt => {
+          return {
+            page: prevSt.page + 1,
+            images: [...prevSt.images, ...data.hits],
+          };
+        });
+        // });
+      });
+  };
+
   componentDidUpdate(prevProps, PrevState) {
     if (prevProps.search !== this.props.search) {
       this.setState({ loading: true });
-      getSearch(this.props.search)
+      getSearch(this.props.search, 1)
         .then(resp => resp.json())
-          .then(data => {
-            //   if (data.status !== "ok") {
-            //     return Promise.reject(data)
-            // }
-        //   console.log('response:>>', data);
+        .then(data => {
+          //   if (data.status !== "ok") {
+          //     return Promise.reject(data)
+          // }
+          //   console.log('response:>>', data);
           this.setState({
             images: data.hits,
             total: data.total,
+            page: 1,
           });
         })
         .catch(error => {
-        //   console.dir(error);
-            this.setState({ error: error.message });
+          //   console.dir(error);
+          this.setState({ error: error.message });
         })
         .finally(() => {
           this.setState({ loading: false });
@@ -44,20 +61,21 @@ export class ImageGallery extends Component {
     }
   }
 
-    render() {
-      const { error, loading, images } = this.state;
+  render() {
+      const { error, loading, images, total, page } = this.state;
+      console.log("total pages:>>", total/12, "current:", page );
     return (
       <>
         {error && <h2>{error}</h2>}
         {loading && <Loader />}
         <ul className={css.gallery}>
-          {this.state.images.map(item => (
+          {images.map(item => (
             <li key={item.id} className={css.galleryItem}>
               <ImageGalleryItem webUrl={item.webformatURL} alt={item.tags} />
             </li>
           ))}
         </ul>
-        {images.length > 0 && <Button clickLoad={this.clickLoad} />}
+        {total / 12 > page && <Button clickLoad={this.clickLoad} />}
       </>
     );
   }

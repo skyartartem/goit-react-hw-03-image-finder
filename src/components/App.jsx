@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import{ Toaster } from 'react-hot-toast';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+// import { Modal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 
 export class App extends Component {
@@ -15,13 +16,17 @@ export class App extends Component {
   };
 
   render() {
+    
     return (
       <div>
-        <Toaster toastOptions={{
-          duration: 1500
-        }} />
+        <Toaster
+          toastOptions={{
+            duration: 1500,
+          }}
+        />
         <Searchbar handleSubmit={this.handleSubmit} />
         <ImageGallery search={this.state.search} />
+        {/* <Modal/> */}
       </div>
     );
   }
