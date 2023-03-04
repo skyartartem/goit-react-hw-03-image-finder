@@ -11,7 +11,6 @@ export class App extends Component {
   };
 
   handleSubmit = search => {
-    // console.log(search);
     this.setState({search});
   };
 
