@@ -1,11 +1,26 @@
 import css from './ImageGalleryItem.module.css';
 import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ webUrl, alt }) => {
-    return <img className={css.ImageGalleryItem} src={webUrl} alt={alt} />;
+export const ImageGalleryItem = ({ images }) => {
+    
+    return (
+      <>
+        {images.map(item => (
+          <li key={item.id} className={css.galleryItem}>
+            <img
+              loading="lazy"
+              className={css.ImageGalleryItem}
+              src={item.webformatURL}
+              alt={item.tags}
+            />
+          </li>
+        ))}
+      </>
+    );
+   
+    
 }
 
 ImageGalleryItem.propTypes = {
-  webUrl: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
