@@ -2,10 +2,10 @@ import { Component } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { getSearch } from 'api/getSearch';
-// import { Modal } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from 'components/Button/Button';
 import { Loader } from 'components/Loader/Loader';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -15,6 +15,7 @@ export class App extends Component {
     total: 1,
     loading: false,
     error: null,
+    showModal: false,
   };
 
   componentDidUpdate(_, PrevState) {
@@ -51,6 +52,12 @@ export class App extends Component {
     }));
   };
 
+  openModal = (largeImageURL, alt) => {
+    this.setState(({ showModal }) => {
+      return { showModal: !showModal, largeImageURL, alt };
+    });
+  };
+
   handleSubmit = search => {
     this.setState({
       search,
@@ -59,6 +66,12 @@ export class App extends Component {
       total: 1,
       loading: false,
       error: null,
+    });
+  };
+
+  closeModal = () => {
+    this.setState(({ showModal }) => {
+      return { showModal: !showModal };
     });
   };
 
@@ -77,10 +90,14 @@ export class App extends Component {
             Something went wrong: ({error})!
           </h2>
         )}
-        <ImageGallery images={images} />
+        <ImageGallery togleModal={this.openModal} images={images} />
         {loading && <Loader />}
         {total / 12 > page && <Button clickLoad={this.clickLoad} />}
-        {/* <Modal/> */}
+        {this.state.showModal && (
+          <Modal closeModal={this.closeModal}>
+            <img src={this.state.largeImageURL} alt={this.state.alt} />
+          </Modal>
+        )}
       </div>
     );
   }

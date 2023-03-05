@@ -1,15 +1,33 @@
+import { Component } from 'react';
+import css from './Modal.module.css';
 
-export const Modal = () => {
+export class Modal extends Component {
+    componentDidMount() {
+    window.addEventListener('keydown', this.keyDown);
+  }
+
+  keyDown = evt => {
+      if (evt.code === 'Escape') {   
+      this.props.closeModal();
+    }
+  };
+
+    componentWillUnmount() {
+       console.log('слухач знявся');
+      window.removeEventListener('keydown', this.keyDown);  
+  }
+
+    handleClose = (evt) => {
+        if (evt.currentTarget === evt.target) {
+          this.props.closeModal(); 
+       } 
+    }
+    
+  render() {
     return (
-      <div className="overlay">
-        <div className="modal">
-          <img
-            src="https://media.licdn.com/dms/image/D4E03AQH9APjXxTywFA/profile-displayphoto-shrink_400_400/0/1674159244050?e=1683158400&v=beta&t=13y6Ruj1klJVfupl-kUS8_7y4WzzQO_ERhKVTaqCBC4"
-            alt="skyart"
-            width="400"
-            height="400"
-          />
-        </div>
+      <div onClick={this.handleClose} className={css.Overlay}>
+        <div className={css.Modal}>{this.props.children}</div>
       </div>
     );
+  }
 }
