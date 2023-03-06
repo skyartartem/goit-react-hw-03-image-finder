@@ -8,8 +8,6 @@ export class Searchbar extends Component {
     search: '',
   };
 
-  // <BiSearch/> or >> 🔍
-
     onChangeInput = (evt) => {
         const { name, value } = evt.currentTarget;
         this.setState({ [name]: value });

@@ -16,6 +16,7 @@ export class App extends Component {
     loading: false,
     error: null,
     showModal: false,
+    empty: false,
   };
 
   componentDidUpdate(_, PrevState) {
@@ -32,6 +33,9 @@ export class App extends Component {
     getSearch(text, page)
       .then(resp => resp.json())
       .then(data => {
+        if (data.hits.length === 0) {
+          this.setState({ empty: true });
+        }
         this.setState(prevSt => ({
           page: prevSt.page,
           images: [...prevSt.images, ...data.hits],
@@ -66,6 +70,7 @@ export class App extends Component {
       total: 1,
       loading: false,
       error: null,
+      empty: false,
     });
   };
 
@@ -92,6 +97,11 @@ export class App extends Component {
         )}
         <ImageGallery togleModal={this.openModal} images={images} />
         {loading && <Loader />}
+        {this.state.empty && (
+          <h2 style={{ textAlign: 'center' }}>
+            Sorry. There are no images ... 😭
+          </h2>
+        )}
         {total / 12 > page && <Button clickLoad={this.clickLoad} />}
         {this.state.showModal && (
           <Modal closeModal={this.closeModal}>
